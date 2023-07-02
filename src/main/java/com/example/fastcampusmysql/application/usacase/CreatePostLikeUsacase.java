@@ -1,6 +1,5 @@
 package com.example.fastcampusmysql.application.usacase;
 
-import com.example.fastcampusmysql.domain.member.service.MemberReadService;
 import com.example.fastcampusmysql.domain.post.service.PostLikeWriteService;
 import com.example.fastcampusmysql.domain.post.service.PostReadService;
 import lombok.RequiredArgsConstructor;

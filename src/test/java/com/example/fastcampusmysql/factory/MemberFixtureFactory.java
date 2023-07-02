@@ -1,7 +1,5 @@
 package com.example.fastcampusmysql.factory;
 
-import com.example.fastcampusmysql.domain.member.dto.MemberDto;
-import com.example.fastcampusmysql.domain.member.entity.Member;
 import org.jeasy.random.EasyRandom;
 import org.jeasy.random.EasyRandomParameters;
 import org.jeasy.random.randomizers.range.LongRangeRandomizer;

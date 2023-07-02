@@ -3,8 +3,6 @@ package com.example.fastcampusmysql.application.usacase;
 import com.example.fastcampusmysql.IntegrationTest;
 import com.example.fastcampusmysql.domain.follow.entity.Follow;
 import com.example.fastcampusmysql.domain.follow.repository.FollowRepository;
-import com.example.fastcampusmysql.domain.member.entity.Member;
-import com.example.fastcampusmysql.domain.member.repository.MemberRepository;
 import com.example.fastcampusmysql.factory.MemberFixtureFactory;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

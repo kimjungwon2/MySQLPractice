@@ -2,8 +2,6 @@ package com.example.fastcampusmysql.application.usacase;
 
 import com.example.fastcampusmysql.domain.follow.entity.Follow;
 import com.example.fastcampusmysql.domain.follow.service.FollowReadService;
-import com.example.fastcampusmysql.domain.member.dto.MemberDto;
-import com.example.fastcampusmysql.domain.member.service.MemberReadService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

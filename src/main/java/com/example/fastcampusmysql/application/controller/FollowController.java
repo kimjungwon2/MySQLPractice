@@ -2,7 +2,6 @@ package com.example.fastcampusmysql.application.controller;
 
 import com.example.fastcampusmysql.application.usacase.CreateFollowMemberUsecase;
 import com.example.fastcampusmysql.application.usacase.GetFollowingMembersUsecase;
-import com.example.fastcampusmysql.domain.member.dto.MemberDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
