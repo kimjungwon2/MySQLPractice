@@ -1,6 +1,6 @@
 package com.example.fastcampusmysql.domain.member.entity;
 
-import com.example.fastcampusmysql.factory.MemberFixtureFactory;
+import com.example.fastcampusmysql.util.MemberFixtureFactory;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,20 +13,21 @@ class MemberTest {
         var member = MemberFixtureFactory.create();
         var expected = "cat";
 
-        member.changeNickname(expected);
+        member.changeNickName(expected);
 
         Assertions.assertEquals(expected, member.getNickname());
     }
 
-    @DisplayName("회원 닉네임의 길이는 10자를 초과할 수 없다")
+    @DisplayName("회원 닉네임은 10자를 초과할 수 없다.")
     @Test
-    public void testNicknameMaxLength() {
+    public void testNickNameMaxLength() {
         var member = MemberFixtureFactory.create();
-        var overMaxLengthName = "superChairman";
-                                       
-        Assertions.assertThrows(
-                IllegalArgumentException.class,
-                () -> member.changeNickname(overMaxLengthName)
-        );
+        var overMaxLengthName = "catcatcatcatcat";
+
+
+        Assertions.assertThrows(IllegalArgumentException.class,
+                ()->member.changeNickName(overMaxLengthName));
+
     }
+
 }
