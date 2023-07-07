@@ -42,16 +42,47 @@ public class PostRepository {
 
         return namedParameterJdbcTemplate.query(query, params, mapper);
     }
-
     public Post save(Post post) {
         if (post.getId() == null)
             return insert(post);
-        throw new UnsupportedOperationException("Post는 갱신을 지원하지 않습니다.");
+        return update(post);
+    }
+
+    private Post update(Post post) {
+        var sql = String.format("""
+        UPDATE %s set 
+            memberId = :memberId, 
+            contents = :contents, 
+            createdDate = :createdDate, 
+            createdAt = :createdAt, 
+            likeCount = :likeCount,
+            version = :version + 1 
+        WHERE id = :id and version = :version
+        """, TABLE);
+
+        SqlParameterSource params = new BeanPropertySqlParameterSource(post);
+        var updatedCount = namedParameterJdbcTemplate.update(sql, params);
+        if (updatedCount == 0) {
+            throw new RuntimeException("not updated");
+        }
+        return post;
+    }
+
+    public void bulkInsert(List<Post> posts) {
+        var sql = String.format("""
+                INSERT INTO `%s` (memberId, contents, createdDate, createdAt)
+                VALUES (:memberId, :contents, :createdDate, :createdAt)
+                """, TABLE);
+
+        SqlParameterSource[] params = posts
+                .stream()
+                .map(BeanPropertySqlParameterSource::new)
+                .toArray(SqlParameterSource[]::new);
+        namedParameterJdbcTemplate.batchUpdate(sql, params);
     }
 
     private Post insert(Post post) {
-        SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(
-                namedParameterJdbcTemplate.getJdbcTemplate())
+        SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(namedParameterJdbcTemplate.getJdbcTemplate())
                 .withTableName(TABLE)
                 .usingGeneratedKeyColumns("id");
 
