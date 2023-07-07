@@ -6,6 +6,8 @@ import com.example.fastcampusmysql.domain.post.dto.PostCommand;
 import com.example.fastcampusmysql.domain.post.entity.Post;
 import com.example.fastcampusmysql.domain.post.service.PostReadService;
 import com.example.fastcampusmysql.domain.post.service.PostWriteService;
+import com.example.fastcampusmysql.util.CursorRequest;
+import com.example.fastcampusmysql.util.PageCursor;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -38,6 +40,14 @@ public class PostController {
             @RequestParam Integer size
     ) {
         return postReadService.getPosts(memberId, PageRequest.of(page, size));
+    }
+
+    @GetMapping("/members/{memberId}")
+    public PageCursor<Post> getPostsByCursor(
+            @PathVariable List<Long> memberIds,
+            CursorRequest cursorRequest
+    ) {
+        return postReadService.getPosts(memberIds, cursorRequest);
     }
 
     @GetMapping("/daily-post-counts")
