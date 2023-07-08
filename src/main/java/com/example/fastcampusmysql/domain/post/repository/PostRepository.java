@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -37,6 +38,8 @@ public class PostRepository {
             .contents(resultSet.getString("contents"))
             .createdDate(resultSet.getObject("createdDate", LocalDate.class))
             .createdAt(resultSet.getObject("createdAt", LocalDateTime.class))
+            .likeCount(resultSet.getLong("likeCount"))
+            .version(resultSet.getLong("version"))
             .build();
 
     private final static RowMapper<DailyPostCount> mapper = (ResultSet resultSet, int rowNum) -> new DailyPostCount(
@@ -57,6 +60,21 @@ public class PostRepository {
         return namedParameterJdbcTemplate.query(query, params, mapper);
     }
 
+
+    public Optional<Post> findById(Long postId, Boolean requiredLock){
+        var sql = String.format("""
+                SELECT * FROM %s WHERE id: postId
+                """, TABLE);
+
+        if(requiredLock){
+            sql+="FOR UPDATE";
+        }
+
+        var params = new MapSqlParameterSource().addValue("postId",postId);
+        var nullablePost =  namedParameterJdbcTemplate.queryForObject(sql, params,ROW_MAPPER);
+
+        return Optional.ofNullable(nullablePost);
+    }
 
     public Page<Post> findAllByMemberId(Long memberId, PageRequest pageRequest) {
         var params = new MapSqlParameterSource()
@@ -170,8 +188,9 @@ public class PostRepository {
 
         SqlParameterSource params = new BeanPropertySqlParameterSource(post);
         var updatedCount = namedParameterJdbcTemplate.update(sql, params);
+
         if (updatedCount == 0) {
-            throw new RuntimeException("not updated");
+            throw new RuntimeException("갱신실패");
         }
         return post;
     }
