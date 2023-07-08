@@ -26,6 +26,10 @@ public class PostReadService {
         return postRepository.findAllByMemberId(memberId, pageRequest);
     }
 
+    public List<Post> getPosts(List<Long> ids) {
+        return postRepository.findAllByIdIn(ids);
+    }
+
     public PageCursor<Post> getPosts(List<Long> memberIds, CursorRequest cursorRequest) {
         var posts = findAllBy(memberIds, cursorRequest);
 
