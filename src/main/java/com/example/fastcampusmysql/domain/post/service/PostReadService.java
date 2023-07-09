@@ -26,6 +26,10 @@ public class PostReadService {
         return postRepository.findAllByMemberId(memberId, pageRequest);
     }
 
+    public Post getPost(Long postID){
+        return postRepository.findById(postID, false).orElseThrow();
+    }
+
     public List<Post> getPosts(List<Long> ids) {
         return postRepository.findAllByIdIn(ids);
     }
